@@ -1,4 +1,27 @@
 #canvas {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
+}
+body {
+  display: flex;
+  justify-content: center;
+}
+#left {
+  color: red;
+  font-size: 15px;
+  margin-right: 60px;
+}
+#bt1 {
+  margin-top: 20px;
+  width: 180px;
+  height: 30px;
+}
+#field2 {
+  height: 30px;
+  border: 2px solid red;
+  width: 175px;
+  text-align: center;
+}
+#field1 {
+  height: 30px;
 }

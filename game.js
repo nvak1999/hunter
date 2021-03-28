@@ -14,6 +14,7 @@ canvas.width = 510;
 canvas.height = 480;
 document.getElementById("canvas").appendChild(canvas);
 let bg = {};
+let name = document.getElementById("field2").value;
 
 function myFunction() {
   document.getElementById("field2").innerHTML = document.getElementById(
@@ -21,6 +22,9 @@ function myFunction() {
   ).value;
 }
 
+let highscore = 0;
+let scoreboard = [];
+let iscore = 0;
 /**
  * Setting up our characters.
  *
@@ -42,8 +46,24 @@ let SECONDS_PER_ROUND = 15;
 let elapsedTime = 0;
 
 function myFunction2() {
-  gameover = false;
+  hero.x = canvas.width / 2;
+  hero.y = canvas.height / 2;
   elapsedTime = 0;
+  startTime = Date.now();
+  gameover = false;
+
+  if (keysPressed["ArrowUp"]) {
+    keysPressed["ArrowUp"] = false;
+  }
+  if (keysPressed["ArrowDown"]) {
+    keysPressed["ArrowDown"] = false;
+  }
+  if (keysPressed["ArrowLeft"]) {
+    keysPressed["ArrowLeft"] = false;
+  }
+  if (keysPressed["ArrowRight"]) {
+    keysPressed["ArrowRight"] = false;
+  }
 }
 
 function loadImages() {
@@ -111,18 +131,17 @@ let gameover = false;
 let update = function () {
   // Update the time.
   if (gameover) {
-    elapsedTime = 0;
     return;
   }
-  elapsedTime = Math.floor((Date.now() - startTime) / 1000);
 
-  //Bị ngay phần này nè
-  if (elapsedTime > 15) {
-    console.log(elapsedTime);
-    gameover = true;
-    alert("time out");
+  if (elapsedTime >= 15) {
     elapsedTime = 0;
+    gameover = true;
+    score = 0;
+    return;
   }
+
+  elapsedTime = Math.floor((Date.now() - startTime) / 1000);
 
   if (keysPressed["ArrowUp"]) {
     hero.y -= 5;
@@ -162,6 +181,11 @@ let update = function () {
       monster.x = Math.floor(Math.random() * 450);
       monster.y = Math.floor(Math.random() * 450);
       score = score + 1;
+      scoreboard[iscore] = score;
+      iscore++;
+      if (score >= highscore) {
+        highscore = score;
+      }
     }
   });
 };
@@ -188,7 +212,9 @@ function render() {
     20
   );
   document.getElementById("score").innerHTML = `Score: ${score}`;
+  document.getElementById("high").innerHTML = `High score:  ${highscore}`;
 }
+
 /**
  * The main game loop. Most every game will have two distinct parts:
  * update (updates the state of the game, in this case our hero and monster)
